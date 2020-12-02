@@ -71,6 +71,8 @@ public class MainActivity extends AppCompatActivity implements ExpenseRecyclerVi
             public void onSelectedDayChange(@NonNull CalendarView view, int year, int month, int dayOfMonth) {
                 selectedDate = year + "-" + (month + 1) + "-" + dayOfMonth;
 
+                Toast.makeText(getApplicationContext(),selectedDate,Toast.LENGTH_SHORT).show();
+
                 loadedString = loadExpense(selectedDate);
                 if (loadedString != "") {
                     Gson gson = new Gson();
@@ -82,6 +84,8 @@ public class MainActivity extends AppCompatActivity implements ExpenseRecyclerVi
                     totalExpenseSetView(totalExpense);
 
                 }
+
+
 
             }
         });
@@ -124,6 +128,8 @@ public class MainActivity extends AppCompatActivity implements ExpenseRecyclerVi
 
         final String FILE_NAME = "MyFinanceExpense" + selectedDate;
         File file = new File(this.getFilesDir(), FILE_NAME);
+
+        Toast.makeText(getApplicationContext(),file.getAbsolutePath(),Toast.LENGTH_SHORT).show();
 
         try {
             InputStream inputStream = new FileInputStream(file);

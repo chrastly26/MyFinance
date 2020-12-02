@@ -31,4 +31,15 @@ public class OverallExpenseData {
     public void setExpenseHashMap(HashMap<String, String> expenseHashMap) {
         this.expenseHashMap = expenseHashMap;
     }
+
+    public String totalExpense(){
+
+        Double totalExpense = 0.00;
+
+        for (String key : this.expenseHashMap.keySet()){
+            totalExpense += Double.parseDouble(this.expenseHashMap.get(key));
+        }
+
+        return String.valueOf(totalExpense);
+    }
 }

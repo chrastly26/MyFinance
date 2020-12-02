@@ -275,6 +275,8 @@ public class AddExpenseActivity extends AppCompatActivity {
         final String FILE_NAME = "MyFinanceGeneralData";
         File file = new File(this.getFilesDir(), FILE_NAME);
 
+        Toast.makeText(getApplicationContext(), file.getAbsolutePath(), Toast.LENGTH_SHORT).show();
+
         if(file.exists()){
 
             String loadedString = loadExpenseGeneralData(FILE_NAME);

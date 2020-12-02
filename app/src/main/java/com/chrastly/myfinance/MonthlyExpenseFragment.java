@@ -82,7 +82,7 @@ public class MonthlyExpenseFragment extends Fragment implements AdapterView.OnIt
             dataQuery();
         }
 
-       yearSpinner = view.findViewById(R.id.yearSpinner);
+        yearSpinner = view.findViewById(R.id.yearSpinner);
         ArrayAdapter<String> yearAdapter = new ArrayAdapter<String>(getActivity(), android.R.layout.simple_spinner_dropdown_item, yearArraylist);
         yearAdapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
         yearSpinner.setAdapter(yearAdapter);
@@ -222,7 +222,7 @@ public class MonthlyExpenseFragment extends Fragment implements AdapterView.OnIt
         Gson gson = new Gson();
         String stringResponse = "";
 
-        File file = new File(getActivity().getFilesDir(), FILE_NAME);
+        File file = new File(getContext().getFilesDir(), FILE_NAME);
 
         try {
             InputStream inputStream = new FileInputStream(file);
