@@ -1,6 +1,48 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
-    <color name="colorPrimary">#6200EE</color>
-    <color name="colorPrimaryDark">#3700B3</color>
-    <color name="colorAccent">#03DAC5</color>
+    <color name="black">#000000</color>
+    <color name="white">#FFFFFF</color>
+
+    <color name="blue50"> #E3F2FD</color>
+    <color name="blue100"> #BBDEFB</color>
+    <color name="blue200"> #90CAF9</color>
+    <color name="blue300"> #64B5F6</color>
+    <color name="blue400"> #42A5F5</color>
+    <color name="blue500"> #2196F3</color>
+    <color name="blue600"> #1E88E5</color>
+    <color name="blue700"> #1976D2</color>
+    <color name="blue800"> #1565C0</color>
+    <color name="blue900"> #0D47A1</color>
+    <color name="blueA100"> #82B1FF</color>
+    <color name="blueA200"> #448AFF</color>
+    <color name="blueA400"> #2979FF</color>
+    <color name="blueA700"> #2962FF</color>
+
+    <color name="grey50"> #FAFAFA</color>
+    <color name="grey100"> #F5F5F5</color>
+    <color name="grey200"> #EEEEEE</color>
+    <color name="grey300"> #E0E0E0</color>
+    <color name="grey400"> #BDBDBD</color>
+    <color name="grey500"> #9E9E9E</color>
+    <color name="grey600"> #757575</color>
+    <color name="grey700"> #616161</color>
+    <color name="grey800"> #424242</color>
+    <color name="grey900"> #212121</color>
+
+    <color name="purple50"> #F3E5F5</color>
+    <color name="purple100"> #E1BEE7</color>
+    <color name="purple200"> #CE93D8</color>
+    <color name="purple300"> #BA68C8</color>
+    <color name="purple400"> #AB47BC</color>
+    <color name="purple500"> #9C27B0</color>
+    <color name="purple600"> #8E24AA</color>
+    <color name="purple700"> #7B1FA2</color>
+    <color name="purple800"> #6A1B9A</color>
+    <color name="purple900"> #4A148C</color>
+    <color name="purpleA100"> #EA80FC</color>
+    <color name="purpleA200"> #E040FB</color>
+    <color name="purpleA400"> #D500F9</color>
+    <color name="purpleA700"> #AA00FF</color>
+
+
 </resources>

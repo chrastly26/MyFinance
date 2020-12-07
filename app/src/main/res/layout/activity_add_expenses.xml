@@ -6,41 +6,125 @@
     android:layout_height="match_parent"
     tools:context=".AddExpenseActivity">
 
-
-    <EditText
-        android:id="@+id/expenseDateEditText"
+    <com.google.android.material.textfield.TextInputLayout
+        android:id="@+id/expenseDateEditTextLayout"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:hint="Date" />
+        android:hint="Date"
+        android:textColorHint="@color/blue700">
 
-    <EditText
-        android:id="@+id/expenseTitleEditText"
+        <com.google.android.material.textfield.TextInputEditText
+            android:id="@+id/expenseDateEditText"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:textColor="@color/grey900"/>
+
+    </com.google.android.material.textfield.TextInputLayout>
+
+    <com.google.android.material.textfield.TextInputLayout
+        android:id="@+id/expenseTitleEditTextLayout"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_below="@id/expenseDateEditText"
-        android:hint="Item" />
+        android:hint="Expense Items"
+        android:textColorHint="@color/blue700"
+        android:layout_below="@id/expenseDateEditTextLayout">
 
-    <EditText
-        android:id="@+id/expenseAmountEditText"
+        <com.google.android.material.textfield.TextInputEditText
+            android:id="@+id/expenseTitleEditText"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:textColor="@color/grey900"/>
+
+    </com.google.android.material.textfield.TextInputLayout>
+
+
+    <com.google.android.material.textfield.TextInputLayout
+        android:id="@+id/expenseAmountEditTextLayout"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_below="@id/expenseTitleEditText"
-        android:inputType="number|numberDecimal"
-        android:hint="Expense Amount"/>
+        android:hint="Expense Amount"
+        android:textColorHint="@color/blue700"
+        android:layout_below="@id/expenseTitleEditTextLayout">
 
-    <EditText
-        android:id="@+id/expenseCategoryEditText"
+        <com.google.android.material.textfield.TextInputEditText
+            android:id="@+id/expenseAmountEditText"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:inputType="number|numberDecimal"
+            android:textColor="@color/grey900"/>
+
+    </com.google.android.material.textfield.TextInputLayout>
+
+
+    <TextView
+        android:id="@+id/expenseCategoryTextView"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_below="@id/expenseAmountEditText"
-        android:hint="Expense Category"/>
+        android:layout_below="@id/expenseAmountEditTextLayout"
+        android:textSize="18dp"
+        android:textColor="@color/grey900"
+        android:paddingTop="10dp"
+        android:text= "Expense Category"/>
 
-    <EditText
-        android:id="@+id/expenseDetailEditText"
+    <TextView
+        android:id="@+id/expenseCategoryInstructionTextView"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_below="@id/expenseCategoryEditText"
-        android:hint="Description"/>
+        android:layout_below="@id/expenseCategoryTextView"
+        android:textSize="10dp"
+        android:textColor="@color/grey900"
+        android:paddingBottom="5dp"
+        android:text= "Please choose from below"/>
+
+    <RelativeLayout
+        android:id="@+id/expenseCategoryRecyclerViewLayout"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_below="@+id/expenseCategoryInstructionTextView"
+        android:layout_above="@id/otherExpenseCategoryEditTextLayout"
+        android:paddingBottom="5dp">
+
+        <androidx.recyclerview.widget.RecyclerView
+            android:id="@+id/expenseCategoryRecyclerView"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:scrollbars="vertical" />
+
+    </RelativeLayout>
+
+    <com.google.android.material.textfield.TextInputLayout
+        android:id="@+id/otherExpenseCategoryEditTextLayout"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:hint="Other Category"
+        android:textColorHint="@color/blue700"
+        android:layout_above="@id/expenseDetailEditTextLayout"
+        android:visibility="gone">
+
+        <com.google.android.material.textfield.TextInputEditText
+            android:id="@+id/otherExpenseCategoryEditText"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:textColor="@color/grey900"/>
+
+    </com.google.android.material.textfield.TextInputLayout>
+
+    <com.google.android.material.textfield.TextInputLayout
+        android:id="@+id/expenseDetailEditTextLayout"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:hint="Description"
+        android:textColorHint="@color/blue700"
+        android:layout_alignParentBottom="true"
+        android:paddingBottom="10dp">
+
+        <com.google.android.material.textfield.TextInputEditText
+            android:id="@+id/expenseDetailEditText"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:textColor="@color/grey900"/>
+
+    </com.google.android.material.textfield.TextInputLayout>
 
 
 </RelativeLayout>

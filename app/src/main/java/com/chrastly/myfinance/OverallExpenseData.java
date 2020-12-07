@@ -1,5 +1,6 @@
 package com.chrastly.myfinance;
 
+import java.util.ArrayList;
 import java.util.HashMap;
 
 public class OverallExpenseData {
@@ -7,6 +8,7 @@ public class OverallExpenseData {
     private String year;
     private String month;
     private HashMap<String,String> expenseHashMap;
+    private HashMap<String, ArrayList<Expense>> dailyTotalHashMap;
 
     public String getYear() {
         return year;
@@ -30,6 +32,14 @@ public class OverallExpenseData {
 
     public void setExpenseHashMap(HashMap<String, String> expenseHashMap) {
         this.expenseHashMap = expenseHashMap;
+    }
+
+    public HashMap<String, ArrayList<Expense>> getDailyTotalHashMap() {
+        return dailyTotalHashMap;
+    }
+
+    public void setDailyTotalHashMap(HashMap<String, ArrayList<Expense>> dailyTotalHashMap) {
+        this.dailyTotalHashMap = dailyTotalHashMap;
     }
 
     public String totalExpense(){

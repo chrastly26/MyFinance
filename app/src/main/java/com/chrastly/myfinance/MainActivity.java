@@ -7,7 +7,6 @@ import androidx.recyclerview.widget.RecyclerView;
 
 import android.content.Intent;
 import android.os.Bundle;
-import android.util.Log;
 import android.view.Menu;
 import android.view.MenuInflater;
 import android.view.MenuItem;
@@ -69,9 +68,7 @@ public class MainActivity extends AppCompatActivity implements ExpenseRecyclerVi
         calendarView.setOnDateChangeListener(new CalendarView.OnDateChangeListener() {
             @Override
             public void onSelectedDayChange(@NonNull CalendarView view, int year, int month, int dayOfMonth) {
-                selectedDate = year + "-" + (month + 1) + "-" + dayOfMonth;
-
-                Toast.makeText(getApplicationContext(),selectedDate,Toast.LENGTH_SHORT).show();
+                selectedDate = year + "-" + dateMonthConversion(month + 1) + "-" + dateMonthConversion(dayOfMonth);
 
                 loadedString = loadExpense(selectedDate);
                 if (loadedString != "") {
@@ -110,8 +107,6 @@ public class MainActivity extends AppCompatActivity implements ExpenseRecyclerVi
                 Intent addExpensesIntent = new Intent(this, AddExpenseActivity.class);
                 addExpensesIntent.putExtra("com.chrastly.myfinance.SELECTEDDATE", selectedDate);
 
-                Toast.makeText(getApplicationContext(), selectedDate.toString(), Toast.LENGTH_SHORT).show();
-
                 startActivity(addExpensesIntent);
                 return true;
 
@@ -128,8 +123,6 @@ public class MainActivity extends AppCompatActivity implements ExpenseRecyclerVi
 
         final String FILE_NAME = "MyFinanceExpense" + selectedDate;
         File file = new File(this.getFilesDir(), FILE_NAME);
-
-        Toast.makeText(getApplicationContext(),file.getAbsolutePath(),Toast.LENGTH_SHORT).show();
 
         try {
             InputStream inputStream = new FileInputStream(file);
@@ -206,14 +199,24 @@ public class MainActivity extends AppCompatActivity implements ExpenseRecyclerVi
 
         }
 
-        DecimalFormat decimalFormat = new DecimalFormat("0.00");
+        DecimalFormat decimalFormat = new DecimalFormat(".00");
 
-        return String.valueOf(Double.valueOf(decimalFormat.format(total)));
+        return String.format("%.2f", total);
     }
 
     public void totalExpenseSetView(String totalExpense){
         totalExpenseTextView = findViewById(R.id.totalExpense);
         totalExpenseTextView.setText(totalExpense);
+    }
+
+    public String dateMonthConversion(Integer dateMonth){
+        if(dateMonth<10){
+            String dateMonthConverted = "0" + dateMonth;
+            return dateMonthConverted;
+        }else{
+            return String.valueOf(dateMonth);
+        }
+
     }
 
 }

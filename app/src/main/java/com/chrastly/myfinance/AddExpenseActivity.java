@@ -3,6 +3,9 @@ package com.chrastly.myfinance;
 import androidx.annotation.NonNull;
 import androidx.annotation.RequiresApi;
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.recyclerview.widget.GridLayoutManager;
+import androidx.recyclerview.widget.LinearLayoutManager;
+import androidx.recyclerview.widget.RecyclerView;
 
 import android.app.DatePickerDialog;
 import android.content.Intent;
@@ -15,7 +18,6 @@ import android.view.MenuItem;
 import android.view.View;
 import android.widget.DatePicker;
 import android.widget.EditText;
-import android.widget.Toast;
 
 import java.io.BufferedReader;
 import java.io.File;
@@ -25,21 +27,23 @@ import java.io.FileOutputStream;
 import java.io.IOException;
 import java.io.InputStream;
 import java.io.InputStreamReader;
-import java.lang.reflect.Array;
-import java.math.BigDecimal;
 import java.text.DecimalFormat;
 import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.HashMap;
 
+import com.google.android.material.textfield.TextInputLayout;
 import com.google.gson.Gson;
 import com.google.gson.reflect.TypeToken;
 
-public class AddExpenseActivity extends AppCompatActivity {
+public class AddExpenseActivity extends AppCompatActivity implements CategoryRecyclerViewAdapter.OnCategoryListener {
 
     private String selectedDate, expenseDate, expenseTitle, expenseAmount, expenseCategory, expenseDetail;
-    private EditText expenseDateEditText, expenseTitleEditText, expenseAmountEditText,
-            expenseCategoryEditText, expenseDetailEditText;
+    private EditText expenseDateEditText, expenseTitleEditText, expenseAmountEditText, expenseDetailEditText,
+            otherExpenseCategoryTextInput;
+    private RecyclerView categoryRecyclerView;
+    private ArrayList<CategoryCardView> categoryCardViewArrayList = new ArrayList<CategoryCardView>();
+    private TextInputLayout otherExpenseCategoryTextInputLayout;
 
     @RequiresApi(api = Build.VERSION_CODES.M)
     @Override
@@ -49,8 +53,6 @@ public class AddExpenseActivity extends AppCompatActivity {
 
         Intent intent = getIntent();
         selectedDate = intent.getStringExtra("com.chrastly.myfinance.SELECTEDDATE");
-
-        Toast.makeText(getApplicationContext(),selectedDate, Toast.LENGTH_SHORT).show();
 
         expenseDateEditText = findViewById(R.id.expenseDateEditText);
         expenseDateEditText.setText(selectedDate);
@@ -69,7 +71,7 @@ public class AddExpenseActivity extends AppCompatActivity {
 
                             @Override
                             public void onDateSet(DatePicker view, int year, int month, int dayOfMonth) {
-                                selectedDate = year + "-" + (month + 1) + "-" + dayOfMonth;
+                                selectedDate = year + "-" + dateMonthConversion(month + 1) + "-" + dateMonthConversion(dayOfMonth);
                                 expenseDateEditText.setText(selectedDate);
                             }
 
@@ -82,9 +84,11 @@ public class AddExpenseActivity extends AppCompatActivity {
 
         expenseAmountEditText = findViewById(R.id.expenseAmountEditText);
         expenseTitleEditText = findViewById(R.id.expenseTitleEditText);
-        expenseCategoryEditText = findViewById(R.id.expenseCategoryEditText);
         expenseDetailEditText = findViewById(R.id.expenseDetailEditText);
 
+        otherExpenseCategoryTextInputLayout = findViewById(R.id.otherExpenseCategoryEditTextLayout);
+        otherExpenseCategoryTextInput = findViewById(R.id.otherExpenseCategoryEditText);
+        showCategoryRecyclerView();
 
     }
 
@@ -122,14 +126,18 @@ public class AddExpenseActivity extends AppCompatActivity {
 
         expenseDate = expenseDateEditText.getText().toString();
         expenseTitle = expenseTitleEditText.getText().toString();
-        expenseCategory = expenseCategoryEditText.getText().toString();
         expenseDetail = expenseDetailEditText.getText().toString();
         expenseAmount = expenseAmountEditText.getText().toString();
 
-        if(expenseCategory.trim().equals("")){
-            expenseCategory = "No Category";
+        if(expenseCategory == null){
+            expenseCategory = "NO CATEGORY";
         }
 
+        if(expenseCategory.equals("OTHERS")){
+
+            expenseCategory = otherExpenseCategoryTextInput.getText().toString();
+
+        }
 
         if (expenseDate.trim().equals("") || expenseTitle.trim().equals("") || expenseAmount.trim().equals("")){
 
@@ -152,7 +160,7 @@ public class AddExpenseActivity extends AppCompatActivity {
             Double expenseAmountTemp = Double.parseDouble(expenseAmountEditText.getText().toString());
             DecimalFormat decimalFormat = new DecimalFormat("0.00");
             expenseAmountTemp = Double.valueOf(decimalFormat.format(expenseAmountTemp));
-            expenseAmount = String.valueOf(expenseAmountTemp);
+            expenseAmount = String.format("%.2f", expenseAmountTemp);
 
             return true;
 
@@ -177,8 +185,6 @@ public class AddExpenseActivity extends AppCompatActivity {
                 Gson gson = new Gson();
                 String expenseJSON = gson.toJson(existingExpenseArrayList);
 
-                Toast.makeText(getApplicationContext(), expenseJSON.toString(), Toast.LENGTH_SHORT).show();
-
                 try {
                     FileOutputStream fileOutputStream = new FileOutputStream(file);
                     fileOutputStream.write(expenseJSON.getBytes());
@@ -188,8 +194,6 @@ public class AddExpenseActivity extends AppCompatActivity {
                 } catch (IOException e) {
                     e.printStackTrace();
                 }
-
-                Toast.makeText(getApplicationContext(), "Saved", Toast.LENGTH_SHORT).show();
 
             }
         }
@@ -201,8 +205,6 @@ public class AddExpenseActivity extends AppCompatActivity {
 
             Gson gson = new Gson();
             String expenseJSON = gson.toJson(expenseArrayList);
-
-            Toast.makeText(getApplicationContext(), expenseJSON.toString(), Toast.LENGTH_SHORT).show();
 
             try {
                 FileOutputStream fileOutputStream = new FileOutputStream(file);
@@ -275,8 +277,6 @@ public class AddExpenseActivity extends AppCompatActivity {
         final String FILE_NAME = "MyFinanceGeneralData";
         File file = new File(this.getFilesDir(), FILE_NAME);
 
-        Toast.makeText(getApplicationContext(), file.getAbsolutePath(), Toast.LENGTH_SHORT).show();
-
         if(file.exists()){
 
             String loadedString = loadExpenseGeneralData(FILE_NAME);
@@ -307,8 +307,6 @@ public class AddExpenseActivity extends AppCompatActivity {
                 Gson gson = new Gson();
                 String expenseJSON = gson.toJson(existingExpenseGeneralData);
 
-                Toast.makeText(getApplicationContext(), expenseJSON.toString(), Toast.LENGTH_SHORT).show();
-
                 try {
                     FileOutputStream fileOutputStream = new FileOutputStream(file);
                     fileOutputStream.write(expenseJSON.getBytes());
@@ -319,8 +317,6 @@ public class AddExpenseActivity extends AppCompatActivity {
                     e.printStackTrace();
                 }
 
-                Toast.makeText(getApplicationContext(), "Saved", Toast.LENGTH_SHORT).show();
-
             }
         }
 
@@ -329,12 +325,8 @@ public class AddExpenseActivity extends AppCompatActivity {
 
             Log.i("expenseGD",expenseGeneralData.toString());
 
-            Toast.makeText(getApplicationContext(), expenseGeneralData.getYearMonthHashMap().get("2020").toString(), Toast.LENGTH_SHORT).show();
-
             Gson gson = new Gson();
             String expenseJSON = gson.toJson(expenseGeneralData);
-
-            Toast.makeText(getApplicationContext(), expenseJSON.toString(), Toast.LENGTH_SHORT).show();
 
             try {
                 FileOutputStream fileOutputStream = new FileOutputStream(file);
@@ -403,5 +395,50 @@ public class AddExpenseActivity extends AppCompatActivity {
 
     }
 
+    public String dateMonthConversion(Integer dateMonth){
+        if(dateMonth<10){
+            String dateMonthConverted = "0" + dateMonth;
+            return dateMonthConverted;
+        }else{
+            return String.valueOf(dateMonth);
+        }
 
+    }
+
+    public void showCategoryRecyclerView() {
+
+        categoryCardViewArrayList.add(new CategoryCardView("FOOD/DINING", R.drawable.ic_meal));
+        categoryCardViewArrayList.add(new CategoryCardView("GROCERIES", R.drawable.ic_grocery));
+        categoryCardViewArrayList.add(new CategoryCardView("ENTERTAINMENT", R.drawable.ic_entertainment));
+        categoryCardViewArrayList.add(new CategoryCardView("SHOPPING", R.drawable.ic_shopping));
+        categoryCardViewArrayList.add(new CategoryCardView("SPORT/GYM", R.drawable.ic_sport));
+        categoryCardViewArrayList.add(new CategoryCardView("TRANSPORT", R.drawable.ic_transport));
+        categoryCardViewArrayList.add(new CategoryCardView("RENTAL", R.drawable.ic_rental));
+        categoryCardViewArrayList.add(new CategoryCardView("BILLS", R.drawable.ic_utility));
+        categoryCardViewArrayList.add(new CategoryCardView("GIFTS", R.drawable.ic_gift));
+        categoryCardViewArrayList.add(new CategoryCardView("TRAVEL", R.drawable.ic_travel));
+        categoryCardViewArrayList.add(new CategoryCardView("TAXES", R.drawable.ic_tax));
+        categoryCardViewArrayList.add(new CategoryCardView("OTHERS", R.drawable.ic_nocategory));
+
+        categoryRecyclerView = findViewById(R.id.expenseCategoryRecyclerView);
+        CategoryRecyclerViewAdapter adapter = new CategoryRecyclerViewAdapter(categoryCardViewArrayList, this);
+        adapter.setCategoryCardViewArrayList(categoryCardViewArrayList);
+
+        categoryRecyclerView.setAdapter(adapter);
+        categoryRecyclerView.setLayoutManager(new GridLayoutManager(getApplicationContext(),2));
+
+    }
+
+
+    @Override
+    public void OnCategoryClick(int position) {
+        expenseCategory = categoryCardViewArrayList.get(position).getCategoryText();
+
+        if(expenseCategory.equals("OTHERS")){
+            otherExpenseCategoryTextInputLayout.setVisibility(View.VISIBLE);
+        }else{
+            otherExpenseCategoryTextInputLayout.setVisibility(View.INVISIBLE);
+        }
+
+    }
 }

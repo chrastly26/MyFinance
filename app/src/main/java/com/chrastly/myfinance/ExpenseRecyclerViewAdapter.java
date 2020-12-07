@@ -1,8 +1,11 @@
 package com.chrastly.myfinance;
 
+import android.graphics.Color;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.ImageView;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
 
@@ -37,9 +40,51 @@ public class ExpenseRecyclerViewAdapter extends RecyclerView.Adapter<ExpenseRecy
         holder.expenseTitleTextField.setText(expenseArrayList.get(position).getExpenseTitle());
         holder.expenseAmountTextField.setText(expenseArrayList.get(position).getExpenseAmount());
 
+        if (expenseArrayList.get(position).getExpenseCategory().equals("FOOD/DINING")) {
+            holder.expenseCategoryImageView.setImageResource(R.drawable.ic_meal);
+
+        } else if (expenseArrayList.get(position).getExpenseCategory().equals("GROCERIES")) {
+            holder.expenseCategoryImageView.setImageResource(R.drawable.ic_grocery);
+
+        } else if (expenseArrayList.get(position).getExpenseCategory().equals("ENTERTAINMENT")) {
+            holder.expenseCategoryImageView.setImageResource(R.drawable.ic_entertainment);
+
+        } else if (expenseArrayList.get(position).getExpenseCategory().equals("SHOPPING")) {
+            holder.expenseCategoryImageView.setImageResource(R.drawable.ic_shopping);
+
+        } else if (expenseArrayList.get(position).getExpenseCategory().equals("SPORT/GYM")) {
+            holder.expenseCategoryImageView.setImageResource(R.drawable.ic_sport);
+
+        } else if (expenseArrayList.get(position).getExpenseCategory().equals("TRANSPORT")) {
+            holder.expenseCategoryImageView.setImageResource(R.drawable.ic_transport);
+
+        } else if (expenseArrayList.get(position).getExpenseCategory().equals("RENTAL")) {
+            holder.expenseCategoryImageView.setImageResource(R.drawable.ic_rental);
+
+        } else if (expenseArrayList.get(position).getExpenseCategory().equals("BILLS")) {
+            holder.expenseCategoryImageView.setImageResource(R.drawable.ic_utility);
+
+        } else if (expenseArrayList.get(position).getExpenseCategory().equals("GIFTS")) {
+            holder.expenseCategoryImageView.setImageResource(R.drawable.ic_gift);
+
+        } else if (expenseArrayList.get(position).getExpenseCategory().equals("TRAVEL")) {
+            holder.expenseCategoryImageView.setImageResource(R.drawable.ic_travel);
+
+        } else if (expenseArrayList.get(position).getExpenseCategory().equals("TAXES")) {
+            holder.expenseCategoryImageView.setImageResource(R.drawable.ic_tax);
+
+        }else {
+            holder.expenseCategoryImageView.setImageResource(R.drawable.ic_nocategory);
+        }
+
+
+        if(position % 2 ==1){
+            holder.parentLayout.setBackgroundColor(Color.parseColor("#ECEFF1"));
+        }else{
+            holder.parentLayout.setBackgroundColor(Color.parseColor("#FFFFFF"));
+        }
+
     }
-
-
 
 
     @Override
@@ -56,12 +101,15 @@ public class ExpenseRecyclerViewAdapter extends RecyclerView.Adapter<ExpenseRecy
 
         private TextView expenseTitleTextField, expenseAmountTextField, expenseDetailTextField;
         private RelativeLayout parentLayout;
+        private ImageView expenseCategoryImageView;
         OnExpenseListener onExpenseListener;
 
         public ViewHolder(@NonNull View itemView, OnExpenseListener onExpenseListener) {
             super(itemView);
             expenseTitleTextField = itemView.findViewById(R.id.expenseTitleRecyclerView);
             expenseAmountTextField = itemView.findViewById(R.id.expenseAmountRecyclerView);
+            expenseCategoryImageView = itemView.findViewById(R.id.expenseCategoryImageView);
+
             parentLayout = itemView.findViewById(R.id.expenseRecyclerViewLayout);
 
             this.onExpenseListener = onExpenseListener;
@@ -79,5 +127,6 @@ public class ExpenseRecyclerViewAdapter extends RecyclerView.Adapter<ExpenseRecy
     public interface OnExpenseListener{
         void OnExpenseClick(int position);
     }
+
 
 }

@@ -12,44 +12,86 @@
         android:id="@+id/calendarView"
         android:layout_centerHorizontal="true"/>
 
-    <androidx.recyclerview.widget.RecyclerView
-        android:layout_width="match_parent"
-        android:layout_height="100dp"
-        android:id="@+id/expenseRecyclerView"
-        android:layout_below="@+id/calendarView"
-        android:scrollbars="vertical"/>
-
     <TextView
+        android:id="@+id/dailyExpenseTextView"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_above="@id/bottomNavigatorLayout"
-        android:layout_below="@id/expenseRecyclerView"
-        android:layout_alignParentLeft="true"
-        android:text="Total"
+        android:text="Daily Expenses"
+        android:layout_below="@id/calendarView"
+        android:paddingLeft="5dp"
+        android:paddingRight="5dp"
+        android:paddingBottom="5dp"
         android:textSize="15sp"
-        android:paddingTop="10dp"/>
+        android:textColor="@color/grey900"/>
 
-    <TextView
-        android:layout_width="wrap_content"
+    <RelativeLayout
+        android:id="@+id/expenseRecyclerViewLayout"
+        android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:id="@+id/totalExpense"
-        android:layout_above="@id/bottomNavigator"
-        android:layout_below="@id/expenseRecyclerView"
-        android:layout_alignParentRight="true"
-        android:textSize="15sp"
-        android:paddingTop="10dp"/>
+        android:layout_below="@id/dailyExpenseTextView"
+        android:layout_above="@id/expenseDetailTextLayout"
+        android:paddingLeft="5dp"
+        android:paddingRight="5dp">
 
-    <FrameLayout
+        <androidx.recyclerview.widget.RecyclerView
+            android:id="@+id/expenseRecyclerView"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:scrollbars="vertical"
+            android:paddingLeft="5dp"
+            android:paddingRight="5dp"/>
+
+    </RelativeLayout>
+
+    <RelativeLayout
+        android:id="@+id/expenseDetailTextLayout"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_above="@+id/bottomNavigatorLayout"
+        android:paddingTop="5dp"
+        android:paddingBottom="5dp"
+        android:paddingLeft="10dp"
+        android:paddingRight="10dp">
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignParentLeft="true"
+            android:text="TOTAL"
+            android:textColor="@color/grey900"
+            android:textSize="15sp"
+            android:textStyle="bold"/>
+
+        <TextView
+            android:id="@+id/totalExpense"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignParentRight="true"
+            android:textColor="@color/grey900"
+            android:textSize="15sp"
+            android:textStyle="bold"/>
+
+    </RelativeLayout>
+
+
+    <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:id="@+id/bottomNavigatorLayout"
-        android:layout_alignParentBottom="true"/>
+        android:layout_alignParentBottom="true">
 
         <com.google.android.material.bottomnavigation.BottomNavigationView
             android:id="@+id/bottomNavigator"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_alignParentBottom="true"
-            app:menu="@menu/bottom_navigation_menu" />
+            app:menu="@menu/bottom_navigation_menu"
+            android:background="@color/white"
+            app:itemTextColor="@color/bottom_navigation_view_selector"
+            app:itemIconTint="@color/bottom_navigation_view_selector"
+            android:outlineProvider="paddedBounds"
+            android:outlineAmbientShadowColor="@color/grey300"/>
+
+    </LinearLayout>
 
 </RelativeLayout>

@@ -5,12 +5,14 @@
         android:id="@+id/dailyExpense"
         android:title="Daily Expense"
         android:icon="@drawable/ic_calendar"
+        android:iconTint="@color/black"
         android:enabled="true"/>
 
     <item
         android:id="@+id/overallExpense"
         android:title="Overall Expense"
         android:icon="@drawable/ic_statistic"
+        android:iconTint="@color/black"
         android:enabled="true"/>
 
 </menu>
